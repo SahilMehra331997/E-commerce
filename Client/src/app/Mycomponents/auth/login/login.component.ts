@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
+import { HotToastService } from '@ngneat/hot-toast';
+import { UserService } from '../../../services/user.service';
+import { User } from '../../../interface/user';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,RouterLink],
   template: `
    
 <div class="container">
@@ -17,23 +20,21 @@ import { ToastrService } from 'ngx-toastr';
           <h2 class="text-center">SIGNIN</h2>
         </div>
         <div class="card-body">      
-          <div class="form-group">
-            <label for="username">USERNAME:</label>
-            <input type="text" name="username" [(ngModel)]="loginForm.username" class="form-control">
+          <div class="form-group mt-3">
+            <input type="text" name="username" [(ngModel)]="loginForm.username" class="form-control" placeholder="Username">
           </div>
-          <div class="form-group">
-            <label for="password">PASSWORD:</label>
-            <input type="password" name="password" [(ngModel)]="loginForm.password" class="form-control">
+          <div class="form-group mt-3">
+            <input type="password" name="password" [(ngModel)]="loginForm.password" class="form-control" placeholder="Password">
           </div>
           <div class="form-group d-grid gap-2 mt-4">
-            <button (click)="login()" class="btn-primary btn-lg btn-block">SIGNIN</button>
+            <button (click)="login()" class="btn btn-primary btn-lg btn-block">SIGNIN</button>
+          </div>
+            <div class="form-group mt-3 d-flex justify-content-center">
+              <p>Don't have an account <a routerLink="/signup">Sign-up</a></p>
           </div>
         </div>
-
       </div>
     </div>
-
-
   </div>
 </div>
   `,
@@ -46,12 +47,22 @@ export class LoginComponent {
   };
 
   constructor(
-    private _toastr: ToastrService,
+    private toastr:HotToastService,private userSrv:UserService
   ) {}
 
   ngOnInit(): void {}
 
   login() {
-    this._toastr.success('success');
+    this.userSrv.getUser().subscribe((res:User[])=>{
+      let success:boolean=false;
+      res.map((user:any)=>{
+      if(this.loginForm.username===user.username && this.loginForm.password===user.password){
+      this.toastr.success('Login Successful');
+      success=true;
+      }
+      });
+      if(!success)
+        this.toastr.error('Login Failed')
+    });
   }
 }

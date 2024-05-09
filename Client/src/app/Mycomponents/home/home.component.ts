@@ -12,20 +12,27 @@ import { Product } from '../../interface/product';
   template: `
        <div>
          <div class="container">
-            <button class="btn btn-danger mt-3" (click)="getProducts()">Products</button>
+            <button class="btn btn-success mt-3" (click)="getProducts('')">Products</button>
+         </div>
+         <div class="container-fluid d-flex justify-content-center">
+            <button class="btn btn-danger ms-3" (click)="getProducts('Apparels')">Apparels</button>
+            <button class="btn btn-danger ms-3" (click)="getProducts('Toys')">Toys</button>
+            <button class="btn btn-danger ms-3" (click)="getProducts('Tools')">Tools</button>
+            <button class="btn btn-danger ms-3" (click)="getProducts('Appliances')">Appliances</button>
          </div>
          <div class="container" *ngIf="products">
            <div class="product-tile" *ngFor="let product of products; let i = index">
              <img src="">
              <div class="product-details">
+              <img src="download (3).jpeg">
                 <h2 class="product-title">{{product.title}}</h2>
                 <p class="product-price">Price : ₹{{product.price}}</p>
                 <details>
-                   <p class="product-color">Color : {{product.color}}</p>
-                   <p class="product-category">Category : {{product.categories}}</p>
+                   <p class="product-color">Color : {{product.colors}}</p>
+                   <p class="product-category">Category : {{product.category}}</p>
                    <p class="product-desc">Desc : {{product.desc}}</p>
-                   <p class="product-size">Size : {{product.size}}</p>
-                   <p class="product-quantity">Quantity : {{product.quantity}}</p>
+                   <p class="product-size">size : {{product.size}}</p>
+                   <p class="product-quantity">Quantity available: {{product.quantity}}</p>
                 </details>
              </div>
            </div>
@@ -43,10 +50,13 @@ export class HomeComponent {
   showDetails: boolean=true;
   constructor() { }
 
-  getProducts() {
+  getProducts(arg:string) {
+
     this.productSrv.getData().subscribe((response: any) => {
-      this.products = response;
-      console.log("products : ", response);
+      if(arg)
+      this.products = response.filter((ele:any) =>ele.category===arg);
+      else
+     this.products=response;
       
   })
   }

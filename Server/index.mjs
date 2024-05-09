@@ -4,6 +4,7 @@ import cors from 'cors';
 import { connectToDatabase } from './db.mjs';
 import adminSchema from './adminSchema.mjs';
 import productSchema from'./productSchema.mjs';
+import userSchema from './userSchema.mjs'
 
 const app = express();
 await connectToDatabase();
@@ -35,10 +36,12 @@ function createFetchRoute(model, routePath) {
 // Model definitions
 const Admin = mongoose.model('admins', adminSchema);
 const Product = mongoose.model('products', productSchema);
+const User = mongoose.model('users', userSchema);
 
 // Create routes
 createFetchRoute(Admin, '/api/admins');
 createFetchRoute(Product, '/api/products');
+createFetchRoute(User, '/api/users');
 
 
 // Start the server

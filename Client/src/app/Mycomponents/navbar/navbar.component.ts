@@ -15,6 +15,7 @@ import { RouterLink } from '@angular/router';
          <a routerLink="/about">About</a>
     </nav>
     <div>
+     <button class="btn btn-primary mb-1 me-1" routerLink="/login">Login</button>
       <button class="btn btn-secondary mb-1" routerLink="/admin">Admin</button>
     </div>
 </div>

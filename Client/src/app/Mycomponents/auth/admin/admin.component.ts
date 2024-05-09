@@ -44,8 +44,8 @@ export class AdminComponent {
   data:any[]=[];
 
   adminForm = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl('')
+    email: new FormControl('abc'),
+    password: new FormControl('123')
   });
 
   Submit() {
@@ -57,7 +57,7 @@ export class AdminComponent {
           if(admin.email===this.adminForm.value.email && admin.password===this.adminForm.value.password)
             {
               this.hotToast.success('Login Success');
-              this.route.navigate(['/']);
+              this.route.navigate(['/adminpage']);
               found=true;
             }
         });

@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    justify-content: space-around;
+    max-width:100%; /* Adjust width as needed */
+    margin-top: 1rem; /* Center the container horizontally */
+    gap:1.5rem;
+  }
+ 
+  .form-group{
+    margin-top: 2rem;
+    width: 40%;
+  }
+  .form__input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }

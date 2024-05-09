@@ -17,9 +17,8 @@ export class ProductService {
    }
   
 
-  uploadData(data:Product){
-    console.log(data);
-    return this.http.post(this.apiUrl,data)
+  uploadData(data:Product):Observable<any>{
+    return this.http.post(this.apiUrl,data);
   }
 
 
