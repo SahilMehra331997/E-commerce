@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HotToastService } from '@ngneat/hot-toast';
 import { UserService } from '../../../services/user.service';
 import { User } from '../../../interface/user';
-import { RouterLink } from '@angular/router';
+import { Route, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +31,7 @@ import { RouterLink } from '@angular/router';
           </div>
             <div class="form-group mt-3 d-flex justify-content-center">
               <p>Don't have an account <a routerLink="/signup">Sign-up</a></p>
-          </div>
+           </div>
         </div>
       </div>
     </div>
@@ -46,19 +46,18 @@ export class LoginComponent {
     password: '',
   };
 
-  constructor(
-    private toastr:HotToastService,private userSrv:UserService
-  ) {}
+  constructor(private toastr:HotToastService,private userSrv:UserService,private router:Router) {}
 
   ngOnInit(): void {}
 
   login() {
     this.userSrv.getUser().subscribe((res:User[])=>{
       let success:boolean=false;
-      res.map((user:any)=>{
+      res.map((user:User)=>{
       if(this.loginForm.username===user.username && this.loginForm.password===user.password){
       this.toastr.success('Login Successful');
       success=true;
+      this.router.navigate(['/'],{queryParams:{user:user.username}})
       }
       });
       if(!success)

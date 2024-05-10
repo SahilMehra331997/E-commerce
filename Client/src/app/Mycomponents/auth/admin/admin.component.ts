@@ -44,8 +44,8 @@ export class AdminComponent {
   data:any[]=[];
 
   adminForm = new FormGroup({
-    email: new FormControl('abc'),
-    password: new FormControl('123')
+    email: new FormControl(''),
+    password: new FormControl('')
   });
 
   Submit() {
@@ -62,7 +62,7 @@ export class AdminComponent {
             }
         });
         if(!found)
-        this.hotToast.error('Login failed , Invalid Email or Password'); 
+        this.hotToast.error('Login failed , Invalid username/email or Password'); 
       });
      
   }

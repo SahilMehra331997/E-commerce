@@ -1,9 +1,11 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../interface/product';
+import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -42,22 +44,27 @@ import { Product } from '../../interface/product';
   `,
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   
   private productSrv = inject(ProductService);
 
   products: Product[] = [];
   showDetails: boolean=true;
-  constructor() { }
+  constructor(private route:ActivatedRoute,private userSrv:UserService) { }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params:any) => {
+    let data:string = params['user'];
+    this.userSrv.currentUser(data);
+    });
+  }
 
   getProducts(arg:string) {
-
     this.productSrv.getData().subscribe((response: any) => {
       if(arg)
       this.products = response.filter((ele:any) =>ele.category===arg);
       else
-     this.products=response;
-      
+     this.products=response;   
   })
   }
 
